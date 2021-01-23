@@ -3,12 +3,16 @@
 #21 de enero del 2021
 
 #Captura el array donde esta contenido el GW de cada enlace
-:global GWPrincipal [/ip arp get [/ip arp find where interface=ether2]];
-:global GWBackup [/ip arp get [/ip arp find where interface=ether3]];
+:global GWPP [/ip route get [/ip route find where dst-address=143.0.94.253/32]];
+:global GWBK [/ip route get [/ip route find where dst-address=143.0.94.254/32]];
+
+#Toma String que contiene el gateway de los enlaces
+:global GWPrincipal ($GWPP->"gateway");
+:global GWBackup ($GWBK->"gateway");
 
 #Agrega rutas DNS GOOGLE
-:ip route add comment="DNS GOOGLE Principal" dst-address=8.8.8.8 gateway=($GWPrincipal->"address") scope=10 target-scope=10
-:ip route add comment="DNS GOOGLE Backup" dst-address=8.8.4.4 gateway=($GWBackup->"address") scope=10 target-scope=10
+:ip route add comment="DNS GOOGLE Principal" dst-address=8.8.8.8 gateway=($GWPrincipal) scope=10 target-scope=10
+:ip route add comment="DNS GOOGLE Backup" dst-address=8.8.4.4 gateway=($GWBackup) scope=10 target-scope=10
 
 #Obtiene el array donde esta contenido el DNS de cada enlace
 :global DNSGooglePrincipal [/ip route get [/ip route find where dst-address=8.8.8.8/32]];
