@@ -1,8 +1,7 @@
 {
     #Configurar Email - Failover de IPSEC principal & Backup
     /tool e-mail
-    set address=173.194.77.108 from=backuphittelco@gmail.com password=\
-    zceynnyqvpdexkzy port=587 start-tls=yes user=backuphittelco
+    set address=173.194.77.108 from=correo_SRC@gmail.com password=p4a$$w0rd port=587 start-tls=yes user=correo_SRC
    
    #Variables
    :global data [/system clock get date]
@@ -26,6 +25,6 @@
          /ip ipsec policy enable $SecondaryPolicy;
          /ip ipsec peer disable $PrimaryPeer;
          /ip ipsec peer enable $SecondaryPeer;
-         /tool e-mail send from="backuphittelco@gmail.com" to="mesa.servicio@hittelco.com" cc="andres.aguillon@hittelco.com,william.soriano@hittelco.com" subject="IPSec Caída $identity $data a las $hora" body="La Ipsec Principal en la sede $identity se ha caído, por favor verificar la IPSec y con el área TI de Miniso"
+         /tool e-mail send from="correo_SRC@gmail.com" to="correo_DST@gmail.com" cc="correo_DST_cc@gmail.com,otro_correo@gmail.com" subject="IPSec Caída $identity $data a las $hora" body="La Ipsec Principal en la sede $identity se ha caído, por favor verificar la IPSec y con el área TI de Miniso"
    }
    }
