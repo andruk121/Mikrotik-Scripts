@@ -11,11 +11,14 @@
 :put $myFile1;
 :log info "Respaldo creado $myFile1";
 
+# Crea backups
 /system backup save name=$myFile1;
 /export file=$myFile1;
 
-/tool fetch url="sftp://backups.hittelecom.net/home/mtkbkp/cedva/$myFile1.backup" user=mtkbkp password=Safas10i05ce  src-path="$myFile1.backup" upload=yes;
-/tool fetch url="sftp://backups.hittelecom.net/home/mtkbkp/cedva/$myFile1.rsc" user=mtkbkp password=Safas10i05ce  src-path="$myFile1.rsc" upload=yes;
+# Carga informacion al server SFTP
+/tool fetch url="sftp://serverSFTP/ubicacion/$myFile1.backup" user=userSFTP password=p4$$w0rd  src-path="$myFile1.backup" upload=yes;
+/tool fetch url="sftp://serverSFTP/ubicacion/$myFile1.rsc" user=userSFTP password=p4$$w0rd  src-path="$myFile1.rsc" upload=yes;
 
+# Elimina archivos de los Backups del mikrotik
 :foreach i in=[/file find] do={:if ([:typeof [:find [/file get $i name] "BACKUP"]]!="nil") do={/file remove $i}};
 :log info "Respaldo terminado $myFile1";
